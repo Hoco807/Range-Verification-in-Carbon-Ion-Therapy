@@ -1,0 +1,6 @@
+BackGround.Spe: After a counting experiment, the background measurement of the treatment room is taken after a target has been removed.
+
+BeamOn.Spe and BeamOn-2.Spe are two in-beam energy spectrum measurements. The CeBr3 detector was positioned 1.3m away from the beam line during the data acquisition.
+
+BeamOff.Spe is the off-beam energy spectrum measurement data. The measurement was taken with the CeBr3 detector positioned 100 mm away from the beam line.
+
