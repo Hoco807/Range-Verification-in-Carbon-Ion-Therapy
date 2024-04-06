@@ -10,3 +10,6 @@ acquired using the ORTEC-ASPEC-927 multi-channel analyzer.
 The CeBr3 crystal and the integrated IC synchronously record data every 100us, and the acquisition system uploads data to the host computer every 10ms.
 In the collected data, each line represents one uploaded data packet (204 data in total). Among them, the first 4 data are marker characters, 
 5~104 are data recorded by the integrated IC, and 105~204 are data recorded by the CeBr3 crystal.
+
+
+The folder 'Simulation_GATE' contains the Geant4/GATE program.
