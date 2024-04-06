@@ -29,7 +29,7 @@
 # CC
 /gate/world/daughters/name GEM
 /gate/world/daughters/insert box
-/gate/GEM/setMaterial Air
+/gate/GEM/setMaterial CeBr3
 /gate/GEM/geometry/setXLength 10.0 cm
 /gate/GEM/geometry/setYLength 0.5 cm
 /gate/GEM/geometry/setZLength 30.0 cm
