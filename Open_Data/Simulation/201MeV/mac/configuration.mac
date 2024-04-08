@@ -1,0 +1,4 @@
+/control/alias   Beam_Energy    2412.36 MeV
+/control/alias   Beam_Sigma_X    2.6220 mm
+/control/alias   Beam_Sigma_Y    2.6527 mm
+/control/alias   Beam_Particle_Num    66159.51
