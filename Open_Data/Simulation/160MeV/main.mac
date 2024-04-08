@@ -1,0 +1,198 @@
+
+#	C O N F I G U R A T I O N
+
+/control/execute mac/configuration.mac
+
+/control/execute mac/verbosity.mac
+#===============
+#vis
+#===============
+/vis/disable
+#/control/execute mac/visu.mac
+
+#===============
+# GEOMETRY
+#===============
+/gate/geometry/setMaterialDatabase mac/GateMaterials.db
+
+
+#===============
+# GEOMETRY
+#===============
+# world
+/gate/world/geometry/setXLength 2.0 m
+/gate/world/geometry/setYLength 2.0 m
+/gate/world/geometry/setZLength 2.0 m
+/gate/world/setMaterial Air
+
+# MSIC
+/gate/world/daughters/name MSIC
+/gate/world/daughters/insert box
+/gate/MSIC/setMaterial Air
+/gate/MSIC/geometry/setXLength 239 mm
+/gate/MSIC/geometry/setYLength 90 mm
+/gate/MSIC/geometry/setZLength 8 mm
+/gate/MSIC/placement/setTranslation 0.0 0.0 -338 mm
+/gate/MSIC/vis/forceWireframe
+/gate/MSIC/vis/setColor yellow
+
+# Detector
+/gate/world/daughters/name Detector
+/gate/world/daughters/systemType scanner
+/gate/world/daughters/insert box
+/gate/Detector/setMaterial Air
+/gate/Detector/geometry/setXLength 200 mm
+/gate/Detector/geometry/setYLength 10 mm
+/gate/Detector/geometry/setZLength 400 mm
+/gate/Detector/placement/setTranslation 0.0 135.0 200.0 mm
+/gate/Detector/vis/forceWireframe
+/gate/Detector/vis/setColor gray
+
+/gate/Detector/daughters/name Shell
+/gate/Detector/daughters/insert box
+/gate/Shell/setMaterial Air
+/gate/Shell/geometry/setXLength 25 mm
+/gate/Shell/geometry/setYLength 10 mm
+/gate/Shell/geometry/setZLength 25 mm
+/gate/Shell/placement/setTranslation -87.5 0.0 -187.5 mm
+/gate/Shell/vis/forceSolid
+/gate/Shell/vis/setColor red
+
+/gate/Shell/daughters/name Crystal
+/gate/Shell/daughters/insert box
+/gate/Crystal/setMaterial CeBr3
+/gate/Crystal/geometry/setXLength 25 mm
+/gate/Crystal/geometry/setYLength 10 mm
+/gate/Crystal/geometry/setZLength 25 mm
+/gate/Crystal/placement/setTranslation 0.0 0.0 0.0 mm
+/gate/Crystal/vis/forceSolid
+/gate/Crystal/vis/setColor red
+
+/gate/Shell/repeaters/insert               cubicArray
+/gate/Shell/cubicArray/setRepeatNumberX    8
+/gate/Shell/cubicArray/setRepeatNumberY    1
+/gate/Shell/cubicArray/setRepeatNumberZ    16
+/gate/Shell/cubicArray/setRepeatVector     25. 0. 25. mm
+/gate/Shell/cubicArray/autoCenter  false
+
+/gate/systems/Detector/level1/attach Shell
+/gate/systems/Detector/level2/attach Crystal
+
+/gate/Crystal/attachCrystalSD
+
+#=======================
+# PHANTOM——ladder model
+#=======================
+/gate/world/daughters/name phantom
+/gate/world/daughters/insert box
+/gate/phantom/setMaterial PMMA
+/gate/phantom/geometry/setXLength 105.3 mm
+/gate/phantom/geometry/setYLength 95.4 mm
+/gate/phantom/geometry/setZLength 199.3 mm
+/gate/phantom/placement/setTranslation 0.0 0.0 99.65 mm
+/gate/phantom/vis/forceSolid
+/gate/phantom/vis/setColor green
+
+/gate/phantom/attachPhantomSD
+
+# ============================
+# ==  PHYSICS             ==
+# ===========================
+
+/gate/physics/addPhysicsList QGSP_BERT_EMY
+
+/gate/physics/Gamma/SetCutInRegion world 10 mm
+/gate/physics/Electron/SetCutInRegion world 10 mm
+/gate/physics/Positron/SetCutInRegion world 10 mm
+
+/gate/physics/Gamma/SetCutInRegion MSIC 1 mm
+/gate/physics/Electron/SetCutInRegion MSIC 1 mm
+/gate/physics/Positron/SetCutInRegion MSIC 1 mm
+
+/gate/physics/Gamma/SetCutInRegion phantom 0.1 mm
+/gate/physics/Electron/SetCutInRegion phantom 0.1 mm
+/gate/physics/Positron/SetCutInRegion phantom 0.1 mm
+
+/gate/physics/Gamma/SetCutInRegion Crystal 1 mm
+/gate/physics/Electron/SetCutInRegion Crystal 1 mm
+/gate/physics/Positron/SetCutInRegion Crystal 1 mm
+
+/gate/physics/processList Enabled
+/gate/physics/processList Initialized
+/gate/physics/displayCuts
+
+#=============================
+#== ACTOR
+#=============================
+
+/gate/actor/addActor    DoseActor       MSICDose
+/gate/actor/MSICDose/save                            output/MSIC.txt
+/gate/actor/MSICDose/attachTo                        MSIC
+/gate/actor/MSICDose/setVoxelSize                    239 90 8 mm
+/gate/actor/MSICDose/enableEdep                      true
+
+/gate/actor/addActor     SimulationStatisticActor stat 
+/gate/actor/stat/save              output/stats_adder.txt 
+/gate/actor/stat/saveEveryNSeconds 60
+
+# ===========================
+# == INITIALIZE            ==
+# ===========================
+
+/gate/run/initialize
+
+# ===========================
+# == Digitizer             ==
+# ===========================
+
+/gate/digitizer/Singles/insert adderCompton
+/gate/digitizer/Singles/insert adder
+/gate/digitizer/Singles/adder/positionPolicy energyWeightedCentroid
+
+#/gate/digitizer/Singles/insert thresholder
+#/gate/digitizer/Singles/thresholder/setThreshold 105.4 keV
+
+# ============================
+# == SOURCE                 ==
+# ============================
+
+/gate/source/addSource PBS PencilBeam
+/gate/source/PBS/setParticleType GenericIon
+/gate/source/PBS/setIonProperties 6 12 6 0
+/gate/source/PBS/setEnergy {Beam_Energy}
+/gate/source/PBS/setSigmaEnergy 2.0 MeV
+/gate/source/PBS/setPosition 0 0 -450 mm
+/gate/source/PBS/setSigmaX {Beam_Sigma_X}
+/gate/source/PBS/setSigmaY {Beam_Sigma_Y}
+/gate/source/PBS/setSigmaTheta 2 mrad
+/gate/source/PBS/setSigmaPhi 2 mrad
+/gate/source/PBS/setEllipseXThetaEmittance 3.8 mm*mrad
+/gate/source/PBS/setEllipseXThetaRotationNorm negative
+/gate/source/PBS/setEllipseYPhiEmittance 3.8 mm*mrad
+/gate/source/PBS/setEllipseYPhiRotationNorm negative
+
+# ============================
+# == OUTPUT                ==
+# ============================
+#/gate/application/noGlobalOutput
+
+/gate/output/root/enable
+/gate/output/root/setFileName output/data
+/gate/output/root/setRootHitFlag 0
+/gate/output/root/setRootSinglesFlag 1
+
+#====================================================
+#  R A N D O M   E N G I N E  A N D  S E E D
+#====================================================
+
+/gate/random/setEngineName MersenneTwister
+/gate/random/setEngineSeed 123456789
+
+#=====================================================
+#   M E A S U R E M E N T   S E T T I N G S   
+#=====================================================
+
+/gate/application/setTotalNumberOfPrimaries {Beam_Particle_Num}
+/gate/application/startDAQ
+/gate/application/describe
+exit
