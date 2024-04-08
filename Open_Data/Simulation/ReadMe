@@ -1,0 +1,6 @@
+The BeamParameter.xlsx file contains experimental measurement data for the HIMM terminal.
+
+The '*MeV' folder contains a simulation program for Geant4/GATE. It calculates the distribution of the secondary radiation field resulting from a C-12 beam bombarding a PMMA target using a 10-core parallel computing method.
+
+The ReadData.m program reads in the simulated data, smooths them, and saves the depth distribution of the radiation field.
+
