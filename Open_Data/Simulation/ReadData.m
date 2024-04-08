@@ -27,13 +27,13 @@ for i=1:n
     Data=Data(a,:);
     clear a;
 
-    [a,b]=histcounts(Data(:,6),'BinWidth',10);
+    [a,b]=histcounts(Data(:,6),'BinWidth',25);
     a=a./MU;
 
     HC{i,1}=[b(2:end)',a'];
     HC{i,1}(:,3)=smooth(b(2:end),a);
 
-    plot(HC{i,1}(1:20,3));
+    plot(HC{i,1}(:,3));
     hold on;
 
     clear a b Data E1 MU;
