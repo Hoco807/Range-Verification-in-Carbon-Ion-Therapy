@@ -1,0 +1,21 @@
+#! /bin/sh
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main1.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main2.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main3.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main4.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main5.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main6.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main7.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main8.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main9.mac &
+sleep 10s
+/opt/Gate/install/bin/Gate /home/hoco/progs/Gate/.Gate/main7/main10.mac &
+sleep 10s
